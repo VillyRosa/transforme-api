@@ -1,5 +1,6 @@
 package com.transforme.api.domain.user;
 
+import com.transforme.api.domain.auth.RegisterDTO;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -42,4 +43,13 @@ public class User {
 
     private LocalDateTime updatedAt;
 
+    public User(RegisterDTO newUser, String hashedPassword) {
+        this.firstname = newUser.firstname();
+        this.lastname = newUser.lastname();
+        this.email = newUser.email();
+        this.password = hashedPassword;
+        this.status = UserStatus.ACTIVE;
+        this.createdAt = LocalDateTime.now();
+        this.updatedAt = LocalDateTime.now();
+    }
 }

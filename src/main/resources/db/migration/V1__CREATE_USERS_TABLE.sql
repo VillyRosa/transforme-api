@@ -2,7 +2,7 @@ create table users (
     id UUID primary key,
     firstname varchar(50) not null,
     lastname varchar(50) not null,
-    birthdate timestamp not null,
+    birthdate timestamp,
     email varchar(80) unique not null,
     email_verified_at timestamptz,
     password varchar(255) not null,
