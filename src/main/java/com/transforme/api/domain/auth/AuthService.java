@@ -3,8 +3,12 @@ package com.transforme.api.domain.auth;
 import com.transforme.api.domain.user.User;
 import com.transforme.api.domain.user.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.UUID;
 
 @Service
 public class AuthService {
@@ -37,6 +41,16 @@ public class AuthService {
         String hashedPassword = this.passwordEncoder.encode(register.password());
 
         userRepository.save(new User(register, hashedPassword));
+    }
+
+    public UUID getAuthenticatedUserId() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        if (authentication == null || !(authentication.getPrincipal() instanceof UUID)) {
+            throw new RuntimeException("User is not authenticated");
+        }
+
+        return (UUID) authentication.getPrincipal();
     }
 
 }
