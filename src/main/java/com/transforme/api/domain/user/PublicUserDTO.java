@@ -11,4 +11,7 @@ public record PublicUserDTO(
     String email,
     int heightCm
 ) {
+    public PublicUserDTO(User user) {
+        this(user.getId(), user.getFirstname(), user.getLastname(), user.getBirthdate(), user.getEmail(), user.getHeightCm());
+    }
 }
