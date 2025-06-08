@@ -53,4 +53,11 @@ public class AuthService {
         return (UUID) authentication.getPrincipal();
     }
 
+    public User getAuthenticatedUser() {
+        UUID userId = this.getAuthenticatedUserId();
+
+        return userRepository.findById(userId)
+                .orElseThrow(() -> new IllegalArgumentException("Authenticated user not found"));
+    }
+
 }

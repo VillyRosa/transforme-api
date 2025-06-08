@@ -21,14 +21,12 @@ public class UserService {
     private PasswordEncoder passwordEncoder;
 
     public UserResponseDTO findMyAccount() {
-        UUID userId = this.authService.getAuthenticatedUserId();
-        var user = this.userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("User not find"));
+        var user = this.authService.getAuthenticatedUser();
         return new UserResponseDTO(user);
     }
 
     public UserResponseDTO updateMyAccount(UpdateUserDTO updateUser) {
-        UUID userId = this.authService.getAuthenticatedUserId();
-        var user = this.userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("User not find"));
+        var user = this.authService.getAuthenticatedUser();
 
         user.setFirstname(updateUser.firstname());
         user.setLastname(updateUser.lastname());
@@ -41,8 +39,7 @@ public class UserService {
     }
 
     public void updateMyPassword(UpdatePasswordDTO newPassword) {
-        UUID userId = this.authService.getAuthenticatedUserId();
-        var user = this.userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("User not find"));
+        var user = this.authService.getAuthenticatedUser();
 
         if (!this.passwordEncoder.matches(newPassword.password(), user.getPassword())) {
             throw new IllegalArgumentException("Invalid credentials");

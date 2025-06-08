@@ -7,7 +7,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -31,8 +30,7 @@ public class WeightService {
     }
 
     public WeightResponseDTO create(NewWeightDTO newWeight) {
-        UUID userId = this.authService.getAuthenticatedUserId();
-        var user = this.userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("User not find"));
+        var user = this.authService.getAuthenticatedUser();
 
         var weight = this.weightRepository.save(new Weight(user, newWeight));
         return new WeightResponseDTO(weight);
